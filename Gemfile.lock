@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/bradurani/pg_csv.git
+  revision: 91119750fa4d593c97a7efd49ee617a0bdff8aad
+  branch: bu/update_pg_version
+  specs:
+    pg_csv (0.2)
+      pg (~> 1.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -268,9 +276,7 @@ GEM
     parallel (1.19.1)
     parser (2.7.0.1)
       ast (~> 2.4.0)
-    pg (0.21.0)
-    pg_csv (0.2)
-      pg (~> 0.17)
+    pg (1.0.0)
     pg_search (2.3.2)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
@@ -492,8 +498,8 @@ DEPENDENCIES
   newrelic_rpm
   oj
   paperclip (~> 6.1.0)
-  pg (~> 0.18)
-  pg_csv
+  pg (~> 1.0.0)
+  pg_csv!
   pg_search
   puma (~> 4.3)
   rack-cors (~> 1.1)

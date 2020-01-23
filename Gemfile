@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.4.1'
  # Use pg as the database for Active Record
-gem 'pg', '~> 0.18'
+gem 'pg', '~> 1.0.0'
 # Use Puma as the app server
 gem 'puma', '~> 4.3'
 # Use SCSS for stylesheets
@@ -50,7 +50,8 @@ gem 'mailchimp-api', require: 'mailchimp'
 gem 'newrelic_rpm'
 gem 'oj'
 gem 'paperclip', '~> 6.1.0'
-gem 'pg_csv'
+# original pg_csv repo seems unmaintained and has a dependency on old pg
+gem 'pg_csv', github: 'bradurani/pg_csv', branch: 'bu/update_pg_version'
 gem 'pg_search'
 gem 'rack-cors', '~> 1.1'
 gem 'rubyzip'
