@@ -2373,6 +2373,9 @@ components:
           type: array
           items:
             type: integer
+        attributeId:
+          type: integer
+          format: integer
     DownloadAttribute:
       type: object
       properties:
