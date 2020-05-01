@@ -63,6 +63,9 @@ Rails.application.routes.draw do
       resources :nodes, only: [] do
         get :search, on: :collection, controller: :nodes_search, action: :index
       end
+
+      get 'map_layers_data', to: 'map_layers#data'
+
       resources :newsletter_subscriptions, only: [:create]
       resource :database_validation, controller: :database_validation,
                                      only: [:show]
