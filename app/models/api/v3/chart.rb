@@ -20,7 +20,6 @@
 #  fk_rails_...  (parent_id => charts.id) ON DELETE => cascade
 #  fk_rails_...  (profile_id => profiles.id) ON DELETE => cascade
 #
-
 module Api
   module V3
     class Chart < YellowTable

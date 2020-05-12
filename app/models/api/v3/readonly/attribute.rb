@@ -10,12 +10,14 @@
 #  unit                                                            :text
 #  unit_type                                                       :text
 #  tooltip_text                                                    :text
+#  tooltip_text_by_context_id                                      :jsonb
+#  tooltip_text_by_country_id                                      :jsonb
+#  tooltip_text_by_commodity_id                                    :jsonb
 #
 # Indexes
 #
 #  attributes_original_type_name_idx  (original_type,name) UNIQUE
 #
-
 # This class is not backed by a materialized view, but a table.
 # The table is refreshed using Postgres "upsert" to preserve ids.
 # The upsert is defined in a SQL function.
@@ -42,40 +44,33 @@ module Api
           end
 
           # @param options
-          # @option options [Boolean] :skip_dependencies skip refreshing
           # @option options [Boolean] :skip_dependents skip refreshing
-          def refresh_now(options = {})
-            refresh_dependencies(options) unless options[:skip_dependencies]
+          def refresh_now(_options = {})
             upsert_attributes
-            refresh_dependents(options) unless options[:skip_dependents]
           end
 
           # @param options
-          # @option options [Boolean] :skip_dependencies skip refreshing
           # @option options [Boolean] :skip_dependents skip refreshing
           def refresh_later(options = {})
             UpsertAttributesWorker.perform_async(options)
+          end
+
+          def refresh_after_create(_key_conditions)
+            refresh
+          end
+
+          def refresh_after_delete(_key_conditions)
+            refresh
+          end
+
+          def refresh_after_update(_key_conditions1, _key_conditions2)
+            refresh
           end
 
           protected
 
           def upsert_attributes
             connection.execute('SELECT upsert_attributes()')
-          end
-
-          def refresh_dependents(options = {})
-            [
-              Api::V3::Readonly::ChartAttribute,
-              Api::V3::Readonly::DashboardsAttribute,
-              Api::V3::Readonly::DownloadAttribute,
-              Api::V3::Readonly::MapAttribute,
-              Api::V3::Readonly::RecolorByAttribute,
-              Api::V3::Readonly::ResizeByAttribute
-            ].each do |mview_klass|
-              mview_klass.refresh(
-                options.merge(skip_dependencies: true)
-              )
-            end
           end
         end
 

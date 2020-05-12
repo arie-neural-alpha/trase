@@ -17,7 +17,6 @@
 #  fk_rails_...  (commodity_id => commodities.id) ON DELETE => cascade ON UPDATE => cascade
 #  fk_rails_...  (qual_id => quals.id) ON DELETE => cascade ON UPDATE => cascade
 #
-
 module Api
   module V3
     class QualCommodityProperty < YellowTable
@@ -38,7 +37,6 @@ module Api
       end
 
       def refresh_dependents
-        Api::V3::Readonly::CommodityAttributeProperty.refresh
         refresh_actor_basic_attributes
       end
 

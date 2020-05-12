@@ -26,6 +26,34 @@ module Api
             end
           end
 
+          def refresh_after_delete(key_conditions)
+            key_conditions_str = key_conditions_str(key_conditions)
+            query = "DELETE FROM #{table_name} WHERE #{key_conditions_str}"
+            connection.execute(query)
+          end
+
+          def refresh_after_update(key_conditions1, key_conditions2)
+            key_conditions1_str = key_conditions_str(key_conditions1)
+            key_conditions2_str = key_conditions_str(key_conditions2)
+            query = <<~SQL
+              DELETE FROM #{table_name} WHERE #{key_conditions1_str};
+              INSERT INTO #{table_name}
+              SELECT * FROM #{table_name}_v WHERE #{key_conditions2_str}
+            SQL
+            connection.execute(query)
+          end
+
+          def key_conditions_str(key_conditions)
+            sanitize_sql_for_conditions([
+              key_conditions.map { |k, v| "#{key_alias(k)} = :#{k}" }.join(' AND '),
+              key_conditions
+            ])
+          end
+
+          def key_alias(key)
+            key
+          end
+
           protected
 
           def refresh_by_name(table_name, _options)

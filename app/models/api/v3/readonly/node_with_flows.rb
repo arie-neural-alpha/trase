@@ -27,7 +27,6 @@
 #  nodes_with_flows_context_id_idx     (context_id)
 #  nodes_with_flows_name_tsvector_idx  (name_tsvector)
 #
-
 module Api
   module V3
     module Readonly
@@ -83,6 +82,11 @@ module Api
           {columns: :context_id},
           {columns: :name_tsvector, using: :gin}
         ].freeze
+
+        def self.key_alias(key)
+          return :id if key == :node_id
+          key
+        end
 
         def self.select_options
           select(:id, :name, :node_type).order(:name).map do |node|

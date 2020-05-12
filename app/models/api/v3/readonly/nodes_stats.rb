@@ -16,11 +16,12 @@
 #
 #  nodes_stats_mv_context_year_quant_node_node_type_idx  (context_id,year,quant_id,node_id,node_type_id) UNIQUE
 #
-
 module Api
   module V3
     module Readonly
       class NodesStats < Api::Readonly::BaseModel
+        include Api::V3::Readonly::MaterialisedView
+
         self.table_name = 'nodes_stats_mv'
 
         belongs_to :context

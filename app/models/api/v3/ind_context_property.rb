@@ -17,7 +17,6 @@
 #  fk_rails_...  (context_id => contexts.id) ON DELETE => cascade ON UPDATE => cascade
 #  fk_rails_...  (ind_id => inds.id) ON DELETE => cascade ON UPDATE => cascade
 #
-
 module Api
   module V3
     class IndContextProperty < YellowTable
@@ -38,7 +37,6 @@ module Api
       end
 
       def refresh_dependents
-        Api::V3::Readonly::ContextAttributeProperty.refresh
         refresh_actor_basic_attributes
       end
 

@@ -17,7 +17,6 @@
 #  fk_rails_...  (country_id => countries.id) ON DELETE => cascade ON UPDATE => cascade
 #  fk_rails_...  (ind_id => inds.id) ON DELETE => cascade ON UPDATE => cascade
 #
-
 module Api
   module V3
     class IndCountryProperty < YellowTable
@@ -38,7 +37,6 @@ module Api
       end
 
       def refresh_dependents
-        Api::V3::Readonly::CountryAttributeProperty.refresh
         refresh_actor_basic_attributes
       end
 

@@ -2,17 +2,18 @@
 #
 # Table name: dashboards_companies
 #
-#  id            :integer          not null, primary key
-#  node_type_id  :integer
-#  context_id    :integer
-#  country_id    :integer          not null
-#  commodity_id  :integer          not null
-#  year          :integer          not null
-#  name          :text
-#  name_tsvector :tsvector
-#  node_type     :text
-#  profile       :text
-#  rank_by_year  :jsonb
+#  id                   :integer          not null, primary key
+#  node_type_id         :integer
+#  context_id           :integer
+#  country_id           :integer          not null
+#  commodity_id         :integer          not null
+#  context_node_type_id :integer
+#  year                 :integer          not null
+#  name                 :text
+#  name_tsvector        :tsvector
+#  node_type            :text
+#  profile              :text
+#  rank_by_year         :jsonb
 #
 # Indexes
 #
@@ -21,7 +22,6 @@
 #  dashboards_companies_name_tsvector_idx  (name_tsvector)
 #  dashboards_companies_node_type_id_idx   (node_type_id)
 #
-
 # @deprecated Use {Api::V3::Readonly::Dashboards::Exporter} or
 # {Api::V3::Readonly::Dashboards::Importer} instead.
 # TODO: remove once dashboards_companies_mv retired
@@ -36,10 +36,9 @@ module Api
           belongs_to :node
 
           class << self
-            def refresh_dependencies(options = {})
-              Api::V3::Readonly::NodesPerContextRankedByVolumePerYear.refresh(
-                options.merge(skip_dependents: true)
-              )
+            def key_alias(key)
+              return :id if key == :node_id
+              key
             end
           end
 

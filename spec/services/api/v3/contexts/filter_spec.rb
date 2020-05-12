@@ -5,11 +5,6 @@ RSpec.describe Api::V3::Contexts::Filter do
   include_context 'api v3 brazil recolor by attributes'
   include_context 'api v3 brazil resize by attributes'
 
-  before(:each) do
-    Api::V3::Readonly::RecolorByAttribute.refresh(sync: true)
-    Api::V3::Readonly::ResizeByAttribute.refresh(sync: true)
-  end
-
   context 'when context without required context node types' do
     let(:incomplete_context) {
       c = FactoryBot.create(:api_v3_context)
