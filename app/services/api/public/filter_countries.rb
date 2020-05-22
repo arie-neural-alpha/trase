@@ -18,9 +18,9 @@ module Api
 
       def initialize_query
         @query = Api::V3::Context.
-          select('contexts.country_id AS id', 'countries.name').
+          select('contexts.country_id AS id', 'countries.name', 'countries.iso2').
           joins('INNER JOIN countries ON countries.id = contexts.country_id').
-          group('contexts.country_id', 'countries.name').
+          group('contexts.country_id', 'countries.name', 'countries.iso2').
           order('countries.name')
 
         if @commodities_ids.any?
